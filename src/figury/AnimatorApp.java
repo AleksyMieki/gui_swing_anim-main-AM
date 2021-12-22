@@ -1,13 +1,11 @@
 package figury;
 
-import java.awt.EventQueue;
-import java.awt.Toolkit;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.JButton;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -37,13 +35,15 @@ public class AnimatorApp extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param delay 
+	 //* @param delay
 	 */
 	public AnimatorApp() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int ww = 450, wh = 300;
-		setBounds((screen.width-ww)/2, (screen.height-wh)/2, ww, wh);
+
+			setBounds((screen.width - ww) / 2, (screen.height - wh) / 2, ww, wh);
+
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -67,16 +67,43 @@ public class AnimatorApp extends JFrame {
 		});
 		btnAdd.setBounds(10, 239, 80, 23);
 		contentPane.add(btnAdd);
-		
+
 		JButton btnAnimate = new JButton("Animate");
 		btnAnimate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				kanwa.animate();
+
 			}
 		});
 		btnAnimate.setBounds(100, 239, 80, 23);
 		contentPane.add(btnAnimate);
-		
+
+		JButton delete = new JButton("clear");
+				delete.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						kanwa.delete();
+						kanwa.initialize();
+					}
+
+
+				});
+				delete.setBounds(200,239,80,23);
+		contentPane.add(delete);
+
+		JButton square = new JButton("square");
+		square.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				kanwa.addSquare();
+			}
+		});
+		square.setBounds(300,239,80,23);
+		contentPane.add(square);
 	}
 
-}
+
+
+	}
+
+

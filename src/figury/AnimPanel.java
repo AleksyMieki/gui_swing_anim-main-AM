@@ -6,6 +6,10 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -21,7 +25,7 @@ public class AnimPanel extends JPanel implements ActionListener {
 	// wykreslacz ekranowy
 	Graphics2D device;
 	// wykreslacz bufora
-	Graphics2D buffer;
+	static Graphics2D buffer;
 
 	private int delay = 70;
 
@@ -40,6 +44,7 @@ public class AnimPanel extends JPanel implements ActionListener {
 		int height = getHeight();
 
 		image = createImage(width, height);
+
 		buffer = (Graphics2D) image.getGraphics();
 		buffer.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		device = (Graphics2D) getGraphics();
@@ -47,23 +52,44 @@ public class AnimPanel extends JPanel implements ActionListener {
 	}
 
 	void addFig() {
-		Figura fig = (numer++ % 2 == 0) ? new Kwadrat(buffer, delay, getWidth(), getHeight())
-				: new Elipsa(buffer, delay, getWidth(), getHeight());
+
+			Figura fig = (numer++ % 2 == 0) ? new Kwadrat(buffer, delay, getWidth(), getHeight())
+					: new Elipsa(buffer, delay, getWidth(), getHeight());
+			timer.addActionListener(fig);
+			new Thread(fig).start();
+
+
+	}
+	void delete(){
+
+			device.clearRect(0,0,getWidth(),getHeight());
+
+
+	}
+
+	void animate()  {
+
+		if (timer.isRunning()) {
+			timer.stop();
+		} else {
+
+			timer.start();
+
+		}
+	}
+	void addSquare()
+	{
+		Figura fig=  new Kwadrat(buffer, delay, getWidth(), getHeight());
 		timer.addActionListener(fig);
 		new Thread(fig).start();
 	}
 
-	void animate() {
-		if (timer.isRunning()) {
-			timer.stop();
-		} else {
-			timer.start();
-		}
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		device.drawImage(image, 0, 0, null);
-		buffer.clearRect(0, 0, getWidth(), getHeight());
+
+			device.drawImage(image, 0, 0, null);
+
+			buffer.clearRect(0, 0, getWidth(), getHeight());
+
 	}
 }
